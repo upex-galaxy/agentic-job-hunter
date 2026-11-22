@@ -1,0 +1,17 @@
+{
+  "name": "agentic-job-hunter",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Agente de IA que atiende reclutadores en LinkedIn y ayuda a postular con CV, con un panel Kanban local.",
+  "license": "MIT",
+  "scripts": {
+    "setup": "bun scripts/setup.ts",
+    "board": "bun src/board.ts",
+    "jobs": "bun src/jobs-cli.ts",
+    "test": "bun test",
+    "agents:setup": "bun scripts/agents-setup.ts",
+    "agents:compat": "bun scripts/agent-compat.ts",
+    "agents:compat:check": "bun scripts/agent-compat.ts --check"
+  }
+}

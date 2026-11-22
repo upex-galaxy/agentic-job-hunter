@@ -1,0 +1,7 @@
+{
+  "enabled": ["file"],
+  "file": { "path": "~/.agentic-job-hunter/notifications.log" },
+  "osascript": {},
+  "slack": { "webhook_env": "JOBHUNTER_SLACK_WEBHOOK" },
+  "whatsapp": { "url_env": "JOBHUNTER_WHATSAPP_URL", "token_env": "JOBHUNTER_WHATSAPP_TOKEN", "to_env": "JOBHUNTER_WHATSAPP_TO" }
+}

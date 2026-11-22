@@ -1,0 +1,13 @@
+{
+  "name": "",
+  "headline": "",
+  "contact": { "email": "", "phone": "", "location": "", "linkedin": "", "site": "" },
+  "summary": "",
+  "skills": [{ "group": "", "items": [] }],
+  "experience": [
+    { "company": "", "role": "", "period": "", "bullets": [{ "text": "", "tags": [] }] }
+  ],
+  "education": [{ "school": "", "title": "", "period": "" }],
+  "languages": [{ "name": "", "level": "" }],
+  "never_include": []
+}

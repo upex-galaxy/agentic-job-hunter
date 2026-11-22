@@ -1,0 +1,28 @@
+# Estado y datos de terceros: nunca se versionan
+.agentic-job-hunter/
+state/
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+*.log
+*.alive
+
+# Secretos
+.env
+.env.*
+!.env.example
+.mcp.json
+
+# CV con datos personales (la plantilla vacía .json/.md sí se versiona)
+cv/**/*.docx
+cv/**/*.pdf
+cv/applications/
+cv/base/profile.json
+config/preferences.json
+config/notify.json
+
+node_modules/
+.DS_Store
+.claude/skills
+.claude/settings.local.json

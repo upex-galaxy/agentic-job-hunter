@@ -1,0 +1,11 @@
+{
+  "salary": { "currency": "", "min": null, "max": null, "period": "month" },
+  "modality": ["remote"],
+  "countries": [],
+  "stack": { "must": [], "nice": [], "avoid": [] },
+  "seniority": "",
+  "contract_types": ["employee", "contractor"],
+  "autonomy": "ask_before_send",
+  "daily_caps": { "sends": 33, "reads": 40 },
+  "language": "es"
+}
