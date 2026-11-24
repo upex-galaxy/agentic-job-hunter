@@ -33,13 +33,14 @@ Este repo no hace prospección en frío ni envía invitaciones: solo responde a 
 - Python 3 con `python-docx` (solo para generar CV) y LibreOffice (opcional, para PDF).
 - Una cuenta de LinkedIn tuya.
 
-## Instalación en 5 pasos
+## Instalación en 6 pasos
 
-1. Clona el repo y entra: `git clone <url> && cd agentic-job-hunter`.
+1. Clona el repo y entra: `git clone https://github.com/upex-galaxy/agentic-job-hunter.git && cd agentic-job-hunter`.
 2. Aplica la compatibilidad con tus agentes: `bun run agents:setup`.
-3. Ejecuta el asistente: `bun run setup`. Pregunta tus preferencias, el nivel de autonomía y las notificaciones, y abre el navegador para que inicies sesión en LinkedIn a mano.
-4. Completa `cv/base/profile.json` con tus datos reales (ver `cv/base/profile.template.json`).
-5. Abre el panel con `bun run board` y lanza el agente con `scripts/launch.sh` (o programa el horario, ver `docs/scheduler.md`).
+3. Ejecuta el asistente: `bun run setup`. Pregunta tus preferencias, el nivel de autonomía y las notificaciones, y abre el navegador para que inicies sesión en LinkedIn a mano. Sin preguntas: `bun run setup --yes --autonomy ask_before_send` (ver `bun run setup --help`).
+4. Completa `cv/base/profile.json` con tus datos reales (ver `cv/base/profile.template.json`). Para generar CV, crea el venv: `python3 -m venv .venv && .venv/bin/pip install -r .agents/skills/cv-tuning/scripts/requirements.txt`.
+5. Valida los selectores de la bandeja con tu sesión (`docs/selectors.md`): LinkedIn cambia su HTML y el vigilante depende de ellos.
+6. Abre el panel con `bun run board` y lanza el agente con `scripts/launch.sh` (o programa el horario, ver `docs/scheduler.md`).
 
 ## Uso
 
@@ -90,10 +91,10 @@ AGENTS.md                  cuerpo único de instrucciones (CLAUDE.md lo importa)
   cv-tuning/               CV por oferta, plantilla y build_cv.py
   linkedin-browser/        playwright-cli con perfil persistente
   interview-scheduling/    calendario (opcional)
-config/                    schedule.conf y ejemplos; tus preferencias quedan ignoradas
+config/                    schedule.conf, selectors.json y ejemplos; tus preferencias quedan ignoradas
 scripts/                   launch, close, vigilante, relojes, notificaciones, setup
 src/ board/                CLI de jobs, API y panel
-docs/                      scheduler y MCPs
+docs/                      scheduler, selectores, pruebas, MCPs y STATUS
 ```
 
 ## Datos y privacidad
@@ -105,6 +106,8 @@ El repo no versiona estado ni datos de terceros. Todo lo que se genera vive en `
 ```bash
 bun test
 ```
+
+Las pruebas no abren LinkedIn ni lanzan agentes: simulan la bandeja con `JOBHUNTER_FAKE_INBOX` y usan `--dry-run`. Ver `docs/testing.md`. Qué está verificado y qué requiere una sesión real de LinkedIn: `docs/STATUS.md`.
 
 ## Licencia
 
