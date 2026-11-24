@@ -23,10 +23,10 @@ Si `profile.json` no existe o tiene el nombre vacío, para y pide al dueño que 
 1. Lee la oferta (el texto que dio el reclutador o la tarjeta del Kanban: `bun run jobs list --json`).
 2. Extrae las palabras clave que el perfil realmente tiene: tecnologías, tipo de producto, responsabilidades.
 3. Escribe `cv/applications/<slug>/offer.json` con `tags`, un `headline` opcional y un `summary` opcional. El `headline` y el `summary` solo reordenan o recortan lo que dice el perfil.
-4. Genera el CV:
+4. Genera el CV. La primera vez crea el venv local (ignorado por git): `python3 -m venv .venv && .venv/bin/pip install -r .agents/skills/cv-tuning/scripts/requirements.txt`.
 
    ```bash
-   python3 .agents/skills/cv-tuning/scripts/build_cv.py \
+   .venv/bin/python .agents/skills/cv-tuning/scripts/build_cv.py \
      --profile cv/base/profile.json \
      --offer cv/applications/<slug>/offer.json \
      --out cv/applications/<slug>/cv

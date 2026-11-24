@@ -1,0 +1,22 @@
+{
+  "name": "Ana Ejemplo",
+  "headline": "QA Automation Engineer",
+  "contact": { "email": "ana@example.com", "phone": "", "location": "Remoto", "linkedin": "linkedin.com/in/ana-ejemplo", "site": "" },
+  "summary": "Perfil ficticio para pruebas del generador de CV.",
+  "skills": [{ "group": "Testing", "items": ["Selenium", "Playwright", "Postman"] }],
+  "experience": [
+    {
+      "company": "Empresa Ficticia",
+      "role": "QA Engineer",
+      "period": "2021 - 2024",
+      "bullets": [
+        { "text": "Automaticé pruebas end to end con Playwright.", "tags": ["playwright", "e2e"] },
+        { "text": "Diseñé pruebas de API con Postman.", "tags": ["api", "postman"] },
+        { "text": "Documenté casos manuales.", "tags": ["manual"] }
+      ]
+    }
+  ],
+  "education": [{ "school": "Universidad Ficticia", "title": "Ingeniería en Sistemas", "period": "2015 - 2020" }],
+  "languages": [{ "name": "Español", "level": "nativo" }, { "name": "Inglés", "level": "B2" }],
+  "never_include": ["DNI"]
+}

@@ -9,7 +9,8 @@ oferta.json (todo opcional):
 
 Reglas: solo usa texto que ya existe en el perfil. Los bullets se eligen y ordenan por etiquetas
 coincidentes con la oferta; no se inventa ni se reescribe ningún dato.
-Dependencia: pip install python-docx
+Dependencia: python-docx (ver requirements.txt). Recomendado en un venv local:
+  python3 -m venv .venv && .venv/bin/pip install -r .agents/skills/cv-tuning/scripts/requirements.txt
 """
 import argparse
 import json
@@ -22,7 +23,7 @@ try:
     from docx import Document
     from docx.shared import Pt
 except ImportError:
-    sys.exit("Falta python-docx: pip install python-docx")
+    sys.exit("Falta python-docx. Instálalo en un venv: python3 -m venv .venv && .venv/bin/pip install python-docx")
 
 
 def pick_bullets(bullets, tags, limit):
@@ -35,56 +36,77 @@ def pick_bullets(bullets, tags, limit):
     return [b for b in bullets if b in chosen]
 
 
+def joined(*parts):
+    return " | ".join(p.strip() for p in parts if p and p.strip())
+
+
 def build(profile, offer, out_stem):
+    """Arma el .docx. Los campos vacíos se omiten (la plantilla vacía genera un CV mínimo válido)."""
     doc = Document()
     doc.styles["Normal"].font.name = "Calibri"
     doc.styles["Normal"].font.size = Pt(10.5)
     tags = offer.get("tags", [])
     limit = int(offer.get("max_bullets", 4))
 
-    doc.add_heading(profile["name"] or "Nombre", level=0)
-    doc.add_paragraph(offer.get("headline") or profile.get("headline", ""))
+    if not (profile.get("name") or "").strip():
+        print("Aviso: el perfil no tiene nombre; completa cv/base/profile.json antes de enviar el CV", file=sys.stderr)
+    doc.add_heading((profile.get("name") or "").strip() or "Nombre", level=0)
+    headline = offer.get("headline") or profile.get("headline", "")
+    if headline:
+        doc.add_paragraph(headline)
     c = profile.get("contact", {})
-    doc.add_paragraph(" | ".join(v for v in (c.get("email"), c.get("phone"), c.get("location"), c.get("linkedin"), c.get("site")) if v))
+    contact = joined(c.get("email"), c.get("phone"), c.get("location"), c.get("linkedin"), c.get("site"))
+    if contact:
+        doc.add_paragraph(contact)
 
     summary = offer.get("summary") or profile.get("summary", "")
     if summary:
         doc.add_heading("Resumen", level=1)
         doc.add_paragraph(summary)
 
-    skills = profile.get("skills", [])
-    if skills:
+    wanted = {t.lower() for t in tags}
+    skill_lines = []
+    for g in profile.get("skills", []):
+        items = sorted((i for i in g.get("items", []) if i.strip()), key=lambda s: 0 if s.lower() in wanted else 1)
+        if items:
+            group = (g.get("group") or "").strip()
+            skill_lines.append(f"{group}: {', '.join(items)}" if group else ", ".join(items))
+    if skill_lines:
         doc.add_heading("Habilidades", level=1)
-        wanted = {t.lower() for t in tags}
-        for g in skills:
-            items = sorted(g.get("items", []), key=lambda s: 0 if s.lower() in wanted else 1)
-            if items:
-                doc.add_paragraph(f"{g.get('group', '')}: {', '.join(items)}".lstrip(": "))
+        for line in skill_lines:
+            doc.add_paragraph(line)
 
-    doc.add_heading("Experiencia", level=1)
-    for job in profile.get("experience", []):
-        doc.add_paragraph(f"{job['role']} | {job['company']} | {job['period']}").runs[0].bold = True
-        for b in pick_bullets(job.get("bullets", []), tags, limit):
-            doc.add_paragraph(b["text"], style="List Bullet")
+    jobs = [j for j in profile.get("experience", []) if joined(j.get("role"), j.get("company"), j.get("period"))]
+    if jobs:
+        doc.add_heading("Experiencia", level=1)
+        for job in jobs:
+            doc.add_paragraph().add_run(joined(job.get("role"), job.get("company"), job.get("period"))).bold = True
+            bullets = [b for b in job.get("bullets", []) if (b.get("text") or "").strip()]
+            for b in pick_bullets(bullets, tags, limit):
+                doc.add_paragraph(b["text"], style="List Bullet")
 
-    if profile.get("education"):
+    education = [e for e in profile.get("education", []) if joined(e.get("title"), e.get("school"), e.get("period"))]
+    if education:
         doc.add_heading("Educación", level=1)
-        for e in profile["education"]:
-            doc.add_paragraph(f"{e['title']} | {e['school']} | {e['period']}")
-    if profile.get("languages"):
+        for e in education:
+            doc.add_paragraph(joined(e.get("title"), e.get("school"), e.get("period")))
+    languages = [l for l in profile.get("languages", []) if (l.get("name") or "").strip()]
+    if languages:
         doc.add_heading("Idiomas", level=1)
-        doc.add_paragraph(", ".join(f"{l['name']} ({l['level']})" for l in profile["languages"]))
+        doc.add_paragraph(", ".join(f"{l['name']} ({l['level']})" if l.get("level") else l["name"] for l in languages))
 
     out_stem.parent.mkdir(parents=True, exist_ok=True)
     docx_path = out_stem.with_suffix(".docx")
     doc.save(docx_path)
     print(docx_path)
     office = shutil.which("soffice") or shutil.which("libreoffice")
+    pdf_path = out_stem.with_suffix(".pdf")
     if office:
         subprocess.run([office, "--headless", "--convert-to", "pdf", "--outdir", str(out_stem.parent), str(docx_path)], check=False, capture_output=True)
-        print(out_stem.with_suffix(".pdf"))
+    if pdf_path.exists():
+        print(pdf_path)
     else:
-        print("Sin LibreOffice: solo se generó el .docx", file=sys.stderr)
+        print("Sin LibreOffice (o la conversión falló): solo se generó el .docx", file=sys.stderr)
 
 
 def main():

@@ -26,3 +26,8 @@ node_modules/
 .DS_Store
 .claude/skills
 .claude/settings.local.json
+
+# Entornos locales y estado de harnesses
+.venv/
+__pycache__/
+.pi/
