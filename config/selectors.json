@@ -1,0 +1,11 @@
+{
+  "_comment": "Selectores CSS de la bandeja de LinkedIn (/messaging/). LinkedIn cambia su HTML sin aviso: valídalos con una sesión real (ver docs/selectors.md).",
+  "validated": false,
+  "inbox_url": "https://www.linkedin.com/messaging/",
+  "conversation_item": "li.msg-conversation-listitem",
+  "thread_link": "a[href*='/messaging/thread/']",
+  "participant_name": ".msg-conversation-listitem__participant-names",
+  "message_snippet": ".msg-conversation-card__message-snippet",
+  "unread_badge": ".notification-badge--show",
+  "login_path_patterns": ["/login", "/checkpoint", "/authwall", "/uas/"]
+}

@@ -15,7 +15,7 @@ Antes de empezar carga `linkedin-browser`. Para adaptar un CV carga `cv-tuning`.
 2. Lee el diario de hoy en `~/.agentic-job-hunter/inbox/day-AAAA-MM-DD.md`. Si no existe, créalo con la hora de inicio.
 3. Revisa `paused.until` en `~/.agentic-job-hunter/inbox/`. Si la fecha no pasó, no abras LinkedIn: avisa al dueño y termina.
 4. Lanza el vigilante en segundo plano: `scripts/wait-inbox.sh`. Termina cuando imprime una línea `VERDICT {json}`.
-5. Lanza también un `sleep 21600 # jobhunter-keepalive` en segundo plano si el host cierra terminales inactivas.
+5. Si lanzaste la sesión a mano (sin `scripts/launch.sh`) y el host cierra terminales inactivas, deja un keepalive: `( exec -a jobhunter-keepalive sleep 21600 ) & echo $! > ~/.agentic-job-hunter/inbox/keepalive.pid`.
 
 Hecho cuando el vigilante corre y el diario de hoy existe.
 
@@ -33,7 +33,7 @@ El vigilante bloquea sin gastar tokens. Cuando termina, lee su veredicto y actú
 | `SESION_PERDIDA` | Revisa `working` y el navegador, corrige y reanuda | Relanza |
 | `ERROR` | Un `ERROR` sobre login vencido: avisa al dueño y para. Otro: reintenta una vez; si repite, avisa | Según el caso |
 
-Al empezar a atender un hilo ejecuta `scripts/begin-work.sh`; al terminar, `scripts/end-work.sh` y `scripts/mark-handled.sh <hilo> <ts>`. Mientras `working` existe, el vigilante no toca el navegador.
+Al empezar a atender un hilo ejecuta `scripts/begin-work.sh`; al terminar, `scripts/end-work.sh` y `scripts/mark-handled.sh <id> "<snippet>"` con el `id` y el `snippet` del veredicto `MENSAJE`. Mientras `working` existe, el vigilante no toca el navegador.
 
 ## 3. Leer el hilo
 

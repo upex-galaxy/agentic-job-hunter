@@ -39,7 +39,7 @@ Si usas Orca, crea dos automatizaciones con los mismos comandos: una diaria a la
 
 ## Terminal sin cierre
 
-Algunos hosts cierran la terminal si no hay procesos en marcha. `launch.sh` arranca un `sleep` de 6 horas marcado `jobhunter-keepalive` y `close.sh` lo elimina.
+Algunos hosts cierran la terminal si no hay procesos en marcha. `launch.sh` arranca un `sleep` de 6 horas llamado `jobhunter-keepalive`, guarda su PID en `keepalive.pid` y `close.sh` lo mata por PID (igual que al vigilante, con `watcher.pid`). Así solo se cierran los procesos de tu carpeta de estado.
 
 ## Cómo comprobar
 
