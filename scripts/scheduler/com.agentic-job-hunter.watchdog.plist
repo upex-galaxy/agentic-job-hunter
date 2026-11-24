@@ -11,7 +11,7 @@
   </array>
   <key>StartInterval</key><integer>600</integer>
   <key>EnvironmentVariables</key>
-  <dict><key>PATH</key><string>/usr/local/bin:/opt/homebrew/bin:/usr/bin:/bin</string></dict>
+  <dict><key>PATH</key><string>__HOME__/.bun/bin:__HOME__/.local/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin</string></dict>
   <key>StandardOutPath</key><string>/tmp/agentic-job-hunter.watchdog.log</string>
   <key>StandardErrorPath</key><string>/tmp/agentic-job-hunter.watchdog.log</string>
 </dict>

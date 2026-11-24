@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key><string>com.agentic-job-hunter.close</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/bash</string>
+    <string>__REPO__/scripts/close.sh</string>
+  </array>
+  <key>StartCalendarInterval</key>
+  <dict><key>Hour</key><integer>21</integer><key>Minute</key><integer>10</integer></dict>
+  <key>EnvironmentVariables</key>
+  <dict><key>PATH</key><string>__HOME__/.bun/bin:__HOME__/.local/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin</string></dict>
+  <key>StandardOutPath</key><string>/tmp/agentic-job-hunter.close.log</string>
+  <key>StandardErrorPath</key><string>/tmp/agentic-job-hunter.close.log</string>
+</dict>
+</plist>

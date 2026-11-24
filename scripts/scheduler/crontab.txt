@@ -1,0 +1,5 @@
+# agentic-job-hunter: pega estas líneas con `crontab -e` (render.sh reemplaza __REPO__ y __HOME__).
+PATH=__HOME__/.bun/bin:__HOME__/.local/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin
+0 7 * * *       /bin/bash __REPO__/scripts/launch.sh --scheduled >> /tmp/agentic-job-hunter.cron.log 2>&1
+*/10 7-20 * * * /bin/bash __REPO__/scripts/launch.sh --watchdog >> /tmp/agentic-job-hunter.cron.log 2>&1
+10 21 * * *     /bin/bash __REPO__/scripts/close.sh >> /tmp/agentic-job-hunter.cron.log 2>&1
