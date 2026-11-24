@@ -14,7 +14,7 @@ Elige y ordena lo que ya está en el CV base según la oferta. No inventes nada.
 | `cv/base/profile.template.json` | Plantilla vacía con la forma del perfil | Sí |
 | `cv/base/profile.json` | Perfil real del dueño, copiado de la plantilla por `bun run setup` | No |
 | `cv/applications/<empresa-rol>/` | Una carpeta por oferta: `offer.json`, `cv.docx`, `cv.pdf` | No |
-| `scripts/build_cv.py` | Genera el `.docx` (y `.pdf` si hay LibreOffice) | Sí |
+| `.agents/skills/cv-tuning/scripts/build_cv.py` | Genera el `.docx` (y `.pdf` si hay LibreOffice) | Sí |
 
 Si `profile.json` no existe o tiene el nombre vacío, para y pide al dueño que lo complete. Los bullets del perfil llevan `tags` (tecnologías y temas); de esas etiquetas sale la selección.
 
